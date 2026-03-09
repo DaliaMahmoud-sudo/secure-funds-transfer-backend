@@ -37,13 +37,13 @@ private final JwtFilter jwtFilter;
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                       "/",
-                    "/swagger-ui/**", 
-                    "/v3/api-docs/**", 
-                    "/swagger-ui.html",
-                    "/api/auth/login"
-                    
-                ).permitAll().anyRequest().authenticated()
+                    "/",
+                    "/api/auth/login",
+                     "/api/auth/register",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui.html"
+            ).permitAll().anyRequest().authenticated()
             )
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable())
