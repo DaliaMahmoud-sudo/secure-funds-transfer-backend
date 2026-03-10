@@ -18,12 +18,15 @@ Frontend:
 ## Sample Credentials
 
 User 1:
-username: ghida
-password: 123456
-
-User 2:
 username: aliaa
 password: 123456
+account_number:ACC1001
+
+
+User 2:
+username: ghida
+password: 123456
+account_number:ACC1002
 
 you can make you own account ex:use Pa$$w0rd 
 
