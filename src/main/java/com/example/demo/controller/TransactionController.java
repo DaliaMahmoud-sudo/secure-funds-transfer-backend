@@ -15,7 +15,7 @@ public class TransactionController {
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
-
+    //constructor injection
     public TransactionController(TransactionRepository transactionRepository,
                                  UserRepository userRepository) {
         this.transactionRepository = transactionRepository;

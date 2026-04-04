@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,7 @@ public class AuthService {
 System.out.println("Entered password: " + request.getPassword());
 System.out.println("DB password: " + user.getPassword());
 System.out.println(passwordEncoder.matches(request.getPassword(), user.getPassword()));
+//validate raw password with hashed password
   if(!passwordEncoder.matches(request.getPassword(), user.getPassword()))
       throw new RuntimeException("Invalid credentials");
 
@@ -57,7 +59,7 @@ System.out.println(passwordEncoder.matches(request.getPassword(), user.getPasswo
         User user = new User();
         user.setUsername(request.getUsername());
 
-        // Encrypt password
+        // hash password
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userRepo.save(user);
@@ -68,7 +70,8 @@ System.out.println(passwordEncoder.matches(request.getPassword(), user.getPasswo
 
         account.setAccountNumber("ACC" + (1000 + accountRepository.count() + 1));
 
-        account.setBalance(0.0);
+        // account.setBalance(0.0);
+        account.setBalance(BigDecimal.ZERO);
 
         accountRepository.save(account);
 

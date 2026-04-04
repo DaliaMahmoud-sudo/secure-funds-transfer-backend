@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/account")
+//inject dependencies automatically
 @RequiredArgsConstructor
 public class AccountController {
 
@@ -22,6 +23,7 @@ public class AccountController {
  private final AccountRepository accountRepo;
 
  @GetMapping
+ //Authentication is injected by Spring Security
  public Account getAccount(Authentication authentication){
 
  String username = authentication.getName();

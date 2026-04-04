@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 
 import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,8 +17,17 @@ public class Transaction {
     private String senderAccountNumber;
     private String recipientAccountNumber;
 
-    private Double amount;
+    private BigDecimal amount;
     private String type; // "IN" or "OUT"
+
+
+    private LocalDateTime transactionDate;
+
+    //Many transactions → one user
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public String getType() {
         return this.type;
@@ -25,16 +36,6 @@ public class Transaction {
     public void setType(String type) {
         this.type = type;
     }
-
-    private LocalDateTime transactionDate;
-    @PrePersist
-    public void setTransactionDate() {
-    this.transactionDate = LocalDateTime.now();
-}
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     public Long getId() {
         return this.id;
@@ -63,17 +64,22 @@ public class Transaction {
         this.recipientAccountNumber = recipientAccountNumber;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return this.amount;
     }
-
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
     public LocalDateTime getTransactionDate() {
         return this.transactionDate;
     }
+
+    //runs before saving
+    @PrePersist
+    public void setTransactionDate() {
+    this.transactionDate = LocalDateTime.now();
+}
 
 
 
@@ -89,7 +95,7 @@ public class Transaction {
 
   
 
-    public Transaction(String sender, String recipient, Double amount, String type, User user) {
+    public Transaction(String sender, String recipient,BigDecimal amount, String type, User user) {
         this.senderAccountNumber = sender;
         this.recipientAccountNumber = recipient;
         this.amount = amount;

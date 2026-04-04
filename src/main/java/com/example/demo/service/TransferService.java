@@ -1,4 +1,6 @@
 package com.example.demo.service;
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +19,9 @@ public class TransferService {
  private final UserRepository userRepo;
  private final AccountRepository accountRepo;
  private final TransactionRepository transactionRepository;
-
+//ensure ACID
  @Transactional
- public void transfer(String username,String recipientAccount,Double amount){
+ public void transfer(String username,String recipientAccount,BigDecimal amount){
 
   User senderUser = userRepo.findByUsername(username).orElseThrow();
 
@@ -29,12 +31,13 @@ public class TransferService {
 
   if(receiver == null)
    throw new RuntimeException("Recipient not found");
+//check balance
+if (sender.getBalance().compareTo(amount) < 0) {
+    throw new RuntimeException("Insufficient funds");
+}
 
-  if(sender.getBalance() < amount)
-   throw new RuntimeException("Insufficient funds");
-
-  sender.setBalance(sender.getBalance() - amount);
-  receiver.setBalance(receiver.getBalance() + amount);
+sender.setBalance(sender.getBalance().subtract(amount));
+receiver.setBalance(receiver.getBalance().add(amount));
 
   accountRepo.save(sender);
   accountRepo.save(receiver);
